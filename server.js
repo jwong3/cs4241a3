@@ -8,9 +8,9 @@ const {Client} = require('pg');
 
 // db server setup
 const client = new Client({
-    connectionString: process.env.DATABASE_URL || "pg://cs4241:8u4d6E&%q@localhost:5432/a3",
-    //ssl: true
-})
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+});
 
 client.connect();
 
