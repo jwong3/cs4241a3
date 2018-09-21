@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .sideEditor {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: lightgreen;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        padding-left: 60px;
+    }
+
+    #profile {
+        visibility: hidden;
+    }
+
+    .icon {
+        height: 50px;
+        width: 50px;
+    }
+
+    #messageEditor {
+        display: block;
+        transition: 0.5s;
+    }
+
+    textarea {
+        height: 350px;
+        width: 350px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Signup for WE</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<div id="greeting">
+    <h1>Welcome to WE!</h1>
+</div>
+
+<div id="input">
+        <div>
+            <label>Name:</label>
+            <input type="text" id="new_user" placeholder="Who are you?">
+        </div>
+        <div>
+            <label>Password: </label>
+            <input type="password" id="new_pass" placeholder="What's your secret?">
+        </div>
+        <div>
+            <label>Confirm your password:</label>
+            <input type="password" id="confirm-pass" placeholder="What is it again?">
+        </div>
+        <button id="create" value="create" onclick="createAccount()">Create Account!</button>
+        <button id="login" value="login">Already a user?</button>
+
+    <dialog id="login-prompt">
+        <div>
+            <label>Username:</label>
+            <input type="text" id="username">
+        </div>
+        <div>
+            <label>Password: </label>
+            <input type="password" id="password">
+        </div>
+        <button value="submit" onclick="signin()">Login!</button>
+    </dialog>
+</div>
+
+<div id="error"></div>
+
+<div id="profile">
+    <img class="icon" src="https://openclipart.org/image/90px/svg_to_png/171070/tasto-2-architetto-franc-01-black-border.png" onclick="openEditor()" />
+
+    <div id="messages">
+    </div>
+
+    <div id="editor" class="sideEditor">
+        <div id="messageEditor">
+            <h3>Message Editor</h3>
+            <div>
+                <textarea id="message"></textarea>
+            </div>
+            <div>
+                <input id="public" type="checkbox" checked /><label>Public</label>
+            </div>
+            <div>
+                <button id="add" value="add" onclick="createMessage()">Post</button>
+                <button id="update" value="update" onclick="updateMessage()">Update changes</button>
+                <button id="delete" value="delete" onclick="deleteMessage()">Delete message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var prompt = document.getElementById('login-prompt');
+    var editor = document.getElementById('editor');
+    var loginButton = document.getElementById('login');
+
+    loginButton.addEventListener('click', function() {
+        prompt.showModal();
+    });
+
+    window.onclick = function(event) {
+        if (event.target == prompt) {
+            prompt.close();
+        }
+
+        if (event.target == editor) {
+            closeEditor();
+        }
+    }
+
+    function openEditor() {
+        defaultOption();
+        document.getElementById('editor').style.width = "500px";
+    }
+
+    function closeEditor() {
+        document.getElementById('editor').style.width = "0";
+    }
+
+    function defaultOption() {
+        document.getElementById('public').check = true;
+        document.getElementById('message').value = "";
+        document.getElementById('add').style.visibility = "visible";
+        document.getElementById('update').style.visibility = "hidden";
+        document.getElementById('delete').style.visibility = "hidden";
+    }
+
+    function updateOption() {
+        document.getElementById('add').style.visibility = "hidden";
+        document.getElementById('update').style.visibility = "visible";
+        document.getElementById('delete').style.visibility = "visible";
+    }
+
+    function clearLogin() {
+        document.getElementById("input").innerHTML = "";
+        document.getElementById("profile").style.visibility = "visible";
+    }
+</script>
+<script>
+    var id;
+    var selection;
+    let info = {};
+    var req = new XMLHttpRequest();
+    let addReq = new XMLHttpRequest();
+    let updateReq = new XMLHttpRequest();
+    let deleteReq = new XMLHttpRequest();
+    var getReq = new XMLHttpRequest();
+    let getMes = new XMLHttpRequest();
+
+    // Login request
+    req.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            id = this.responseText;
+
+            clearLogin();
+            getData();
+        }
+    };
+
+    // Add message request
+    addReq.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            closeEditor();
+            getData();
+        }
+    };
+
+    // Update message request
+    updateReq.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            closeEditor();
+            getData();
+        }
+    };
+
+    // Delete message request
+    deleteReq.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            closeEditor();
+            getData();
+        }
+    };
+
+    // Get request for most-up-to-date data
+    getReq.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            postData(JSON.parse(this.responseText));
+        }
+    };
+
+    // Get message content to edit
+    getMes.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            console.log("successfully received message content");
+            openEditor();
+            updateOption();
+            fillEditor(JSON.parse(this.responseText));
+        }
+    };
+
+    function fillEditor(message) {
+        if (message[0].is_public) {
+            document.getElementById('public').check = true;
+        } else {
+            document.getElementById('public').check = false;
+        }
+
+        document.getElementById('message').value = message[0].content;
+    }
+
+    function getData() {
+        getReq.open('GET', '/read');
+        getReq.send();
+    }
+
+    function getMessage(id) {
+        console.log("Message id to get is: " + id);
+        var message = {};
+
+        message.mes_id = id;
+
+        getMes.open('POST', '/message');
+        getMes.setRequestHeader('Content-type', 'application/json');
+        getMes.send(JSON.stringify(message));
+
+        console.log("get message request sent");
+
+        selection = id;
+    }
+
+    function postData(data) {
+        document.getElementById('messages').innerHTML = "";
+
+        var i;
+
+        for (i = 0; i < data.length; i++) {
+            var id = data[i].id;
+            var dataTemplate = `<div id=${data[i].id} onclick="getMessage(id)"><span>${data[i].name}:    </span><span>     ${data[i].content}</span></div>`;
+            document.getElementById('messages').innerHTML += dataTemplate;
+        }
+     }
+
+    function createMessage() {
+        var messageInfo = {};
+
+        messageInfo.user = id;
+        messageInfo.is_public = document.getElementById('public').checked;
+        messageInfo.content = document.getElementById("message").value;
+
+        console.log("JSON message info: " + JSON.stringify(messageInfo));
+
+        addReq.open('POST', '/add');
+        addReq.setRequestHeader('Content-type', 'application/json');
+        addReq.send(JSON.stringify(messageInfo));
+    }
+
+    function updateMessage() {
+        var messageInfo = {};
+
+        messageInfo.id = selection;
+        messageInfo.is_public = document.getElementById('public').checked;
+        messageInfo.content = document.getElementById("message").value;
+
+        console.log("JSON message info: " + JSON.stringify(messageInfo));
+
+        updateReq.open('POST', '/update');
+        updateReq.setRequestHeader('Content-type', 'application/json');
+        updateReq.send(JSON.stringify(messageInfo));
+    }
+
+    function deleteMessage() {
+        var messageInfo = {};
+
+        messageInfo.id = selection;
+
+        console.log("JSON message info: " + JSON.stringify(messageInfo));
+
+        updateReq.open('POST', '/delete');
+        updateReq.setRequestHeader('Content-type', 'application/json');
+        updateReq.send(JSON.stringify(messageInfo));
+    }
+
+    function signin() {
+        let user = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        info.user = user;
+        info.password = password;
+
+        req.open('POST', '/login');
+        req.setRequestHeader('Content-type', 'application/json');
+        req.send(JSON.stringify(info));
+    }
+
+    function createAccount() {
+        let name = document.getElementById("new-user").value;
+        let password = document.getElementById("new-pass").value;
+        let confirmation = document.getElementById("confirm-pass").value;
+
+        if (name.length === 0 || password.length === 0 || password !== confirmation) {
+            return;
+        } else {
+            info.name = name;
+            info.password = password;
+
+            req.open('POST', '/create');
+            req.setRequestHeader('Content-type', 'application/json');
+            req.send(JSON.stringify(info));
+        }
+    }
+</script>
+</body>
+</html>
