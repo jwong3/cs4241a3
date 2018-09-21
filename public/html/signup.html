@@ -37,7 +37,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Signup for WE</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <div id="greeting">
@@ -73,7 +72,13 @@
     </dialog>
 </div>
 
-<div id="error"></div>
+<div>
+    <dialog id="server_info">
+        <div id="server_message">
+        </div>
+        <button value="close" onclick="close()">Got it!</button>
+    </dialog>
+</div>
 
 <div id="profile">
     <img class="icon" src="https://openclipart.org/image/90px/svg_to_png/171070/tasto-2-architetto-franc-01-black-border.png" onclick="openEditor()" />
@@ -102,6 +107,8 @@
 <script>
     var prompt = document.getElementById('login-prompt');
     var editor = document.getElementById('editor');
+	var server_info = document.getElementById('server_info');
+	var server_message = document.getElementById('server_message');
     var loginButton = document.getElementById('login');
 
     loginButton.addEventListener('click', function() {
@@ -145,6 +152,18 @@
         document.getElementById("input").innerHTML = "";
         document.getElementById("profile").style.visibility = "visible";
     }
+	
+	function open() {
+		server_info.showModal();
+	}
+	
+	function close() {
+		server_info.close();
+	}
+	
+	function postWarning(id) {
+		server_message.innerHTML = "<p>Your username is: " + id + "! Please make note of this as you will need this for future login!</p>";
+	}
 </script>
 <script>
     var id;
@@ -161,7 +180,7 @@
     req.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             id = this.responseText;
-
+			postWarning(id);
             clearLogin();
             getData();
         }

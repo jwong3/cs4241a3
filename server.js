@@ -8,8 +8,8 @@ const {Client} = require('pg');
 
 // db server setup
 const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
+    connectionString: process.env.DATABASE_URL || "pg://cs4241:8u4d6E&%q@localhost:5432/a3",
+    //ssl: true
 });
 
 client.connect();
@@ -93,7 +93,7 @@ function login(req, res) {
 
     req.on('end', function() {
         console.log("user is: " + info[0].user);
-        console.log("password is: " + info[0].password);
+        console.log("password is: " + info[0].password);			
 
         var queryTemplate = `SELECT password FROM "User" WHERE id='${info[0].user}';`;
         client.query(queryTemplate, function(err, result) {
