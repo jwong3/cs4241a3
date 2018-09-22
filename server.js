@@ -102,13 +102,14 @@ function login(req, res) {
                 return console.error('error running query', err);
             }
 
-            if (result.rows.length === 1) {
-                if (hash.verify(info[0].password, result.rows[0].password) === true) {
-                    console.log("password verified");
-                    res.end(info[0].user);
-                }
-            } else {
+            if (result.rows.length < 1) {
                 res.end('fail');
+                return;
+            }
+
+            if (hash.verify(info[0].password, result.rows[0].password) === true) {
+                console.log("password verified");
+                res.end(info[0].user);
             }
         });
     });
