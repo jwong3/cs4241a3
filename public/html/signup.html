@@ -37,6 +37,10 @@
         height: 350px;
         width: 400px;
     }
+
+    #error {
+        color: red;
+    }
 </style>
 <head>
     <meta charset="UTF-8">
@@ -73,6 +77,7 @@
             <input type="password" id="password">
         </div>
         <button value="submit" onclick="signin()">Login!</button>
+        <div id="error"></div>
     </dialog>
 </div>
 
@@ -114,6 +119,7 @@
 	var server_info = document.getElementById('server_info');
 	var server_message = document.getElementById('server_message');
     var loginButton = document.getElementById('login');
+    var error = document.getElementById('error');
 
     loginButton.addEventListener('click', function() {
         prompt.showModal();
@@ -121,6 +127,7 @@
 
     window.onclick = function(event) {
         if (event.target == prompt) {
+            error.innerHTML = "";
             prompt.close();
         }
 
@@ -169,6 +176,10 @@
 		server_message.innerHTML = "<p>Your username is: " + id + "! Please make note of this as you will need this for future login!</p>";
 		openInfo();
 	}
+
+	function printLoginError() {
+        error.innerHTML = "<p>You're not you!</p>";
+    }
 </script>
 <script>
     var id;
@@ -184,10 +195,14 @@
     // Login request
     req.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            id = this.responseText;
-			postWarning(id);
-            clearLogin();
-            getData();
+            if (this.responseText === "fail") {
+                printLoginError();
+            } else {
+                id = this.responseText;
+                postWarning(id);
+                clearLogin();
+                getData();
+            }
         }
     };
 

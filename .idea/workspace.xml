@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/server.js" description="console.log('Adding message PUBLIC')" line="127" />
+    <bookmark url="file://$PROJECT_DIR$/server.js" description="console.log('Adding message PUBLIC')" line="131" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c7c4495-0bff-42ac-932b-7b484bc2c38d" name="Default Changelist" comment="">
@@ -47,35 +47,35 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="576" />
-          <entry key="html" value="12728" />
-          <entry key="js" value="8499" />
+          <entry key="html" value="13018" />
+          <entry key="js" value="8566" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="576" />
-          <entry key="HTML" value="12728" />
-          <entry key="JavaScript" value="8499" />
+          <entry key="HTML" value="13018" />
+          <entry key="JavaScript" value="8566" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
+            <state relative-caret-position="-6">
+              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/html/signup.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2451">
-              <caret line="169" column="19" lean-forward="true" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
+            <state relative-caret-position="119">
+              <caret line="150" column="34" lean-forward="true" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -95,6 +95,7 @@
     <findStrings>
       <find>read</find>
       <find>close()</find>
+      <find>error</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,8 +108,8 @@
         <option value="$PROJECT_DIR$/public/html/profile.html" />
         <option value="$PROJECT_DIR$/public/html/login.html" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/public/html/signup.html" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -127,10 +128,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="915" />
-    <option name="y" value="46" />
-    <option name="width" value="1750" />
-    <option name="height" value="975" />
+    <option name="x" value="-8" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -197,18 +197,18 @@
       <workItem from="1536856391477" duration="183000" />
       <workItem from="1537317355495" duration="30575000" />
       <workItem from="1537421356812" duration="37997000" />
-      <workItem from="1537572475862" duration="2147000" />
+      <workItem from="1537572475862" duration="5629000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73895000" />
+    <option name="totallyTimeSpent" value="77377000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14144084" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2876344" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -257,17 +257,17 @@
     <entry file="file://$PROJECT_DIR$/public/html/profile.html" />
     <entry file="file://$PROJECT_DIR$/public/html/login.html" />
     <entry file="file://$PROJECT_DIR$/public/css/style.css" />
-    <entry file="file://$PROJECT_DIR$/server.js">
+    <entry file="file://$PROJECT_DIR$/public/html/signup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
+        <state relative-caret-position="119">
+          <caret line="150" column="34" lean-forward="true" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/html/signup.html">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2451">
-          <caret line="169" column="19" lean-forward="true" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
+        <state relative-caret-position="-6">
+          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
         </state>
       </provider>
     </entry>

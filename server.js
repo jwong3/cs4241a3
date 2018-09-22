@@ -9,7 +9,7 @@ const {Client} = require('pg');
 // db server setup
 const client = new Client({
     connectionString: process.env.DATABASE_URL || "pg://cs4241:8u4d6E&%q@localhost:5432/a3",
-    ssl: true
+    //ssl: true
 });
 
 client.connect();
@@ -101,12 +101,16 @@ function login(req, res) {
             if (err) {
                 return console.error('error running query', err);
             }
-            if (hash.verify(info[0].password, result.rows[0].password) === true) {
-                console.log("password verified");
+
+            if (result.rows.length < 1) {
+                res.end('fail');
+            } else {
+                if (hash.verify(info[0].password, result.rows[0].password) === true) {
+                    console.log("password verified");
+                    res.end(info[0].user);
+                }
             }
         });
-
-        res.end(info[0].user);
     });
 }
 
@@ -125,10 +129,10 @@ function addMessage(req, res) {
         var addPrivate = `INSERT INTO "Message" VALUES ('${messageID}', '${info[0].user}', FALSE, '${info[0].content}');`;
 
         if (info[0].is_public) {
-            console.log('Adding message PUBLIC')
+            console.log('Adding message PUBLIC');
             client.query(addPublic);
         } else {
-            console.log('Adding message NOT PUBLIC')
+            console.log('Adding message NOT PUBLIC');
             client.query(addPrivate);
         }
     });
