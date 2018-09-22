@@ -2,14 +2,14 @@ var http = require('http'),
     fs = require('fs'),
     url = require('url'),
     hash = require('password-hash'),
-    port = 8080
+    port = 8080;
 
 const {Client} = require('pg');
 
 // db server setup
 const client = new Client({
     connectionString: process.env.DATABASE_URL || "pg://cs4241:8u4d6E&%q@localhost:5432/a3",
-    //ssl: true
+    ssl: true
 });
 
 client.connect();
@@ -81,6 +81,7 @@ function create_account(req, res) {
         client.query(queryTemplate);
     });
 
+    console.log('Done creating account');
     res.end(id);
 }
 

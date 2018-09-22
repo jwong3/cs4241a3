@@ -11,8 +11,8 @@
         background-color: lightgreen;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
-        padding-left: 60px;
+        padding-top: 30px;
+        padding-left: 30px;
     }
 
     #profile {
@@ -22,16 +22,20 @@
     .icon {
         height: 50px;
         width: 50px;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     #messageEditor {
         display: block;
         transition: 0.5s;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
     textarea {
         height: 350px;
-        width: 350px;
+        width: 400px;
     }
 </style>
 <head>
@@ -54,7 +58,7 @@
         </div>
         <div>
             <label>Confirm your password:</label>
-            <input type="password" id="confirm-pass" placeholder="What is it again?">
+            <input type="password" id="confirm_pass" placeholder="What is it again?">
         </div>
         <button id="create" value="create" onclick="createAccount()">Create Account!</button>
         <button id="login" value="login">Already a user?</button>
@@ -76,7 +80,7 @@
     <dialog id="server_info">
         <div id="server_message">
         </div>
-        <button value="close" onclick="close()">Got it!</button>
+        <button value="close" onclick="closeInfo()">Got it!</button>
     </dialog>
 </div>
 
@@ -137,15 +141,15 @@
     function defaultOption() {
         document.getElementById('public').check = true;
         document.getElementById('message').value = "";
-        document.getElementById('add').style.visibility = "visible";
-        document.getElementById('update').style.visibility = "hidden";
-        document.getElementById('delete').style.visibility = "hidden";
+        document.getElementById('add').disabled = false;
+        document.getElementById('update').disabled = true;
+        document.getElementById('delete').disabled = true;
     }
 
     function updateOption() {
-        document.getElementById('add').style.visibility = "hidden";
-        document.getElementById('update').style.visibility = "visible";
-        document.getElementById('delete').style.visibility = "visible";
+        document.getElementById('add').disabled = true;
+        document.getElementById('update').disabled = false;
+        document.getElementById('delete').disabled = false;
     }
 
     function clearLogin() {
@@ -153,17 +157,17 @@
         document.getElementById("profile").style.visibility = "visible";
     }
 	
-	function open() {
+	function openInfo() {
 		server_info.showModal();
 	}
 	
-	function close() {
+	function closeInfo() {
 		server_info.close();
 	}
 	
 	function postWarning(id) {
 		server_message.innerHTML = "<p>Your username is: " + id + "! Please make note of this as you will need this for future login!</p>";
-		open();
+		openInfo();
 	}
 </script>
 <script>
@@ -323,20 +327,20 @@
     }
 
     function createAccount() {
-        let name = document.getElementById("new-user").value;
-        let password = document.getElementById("new-pass").value;
-        let confirmation = document.getElementById("confirm-pass").value;
+        let name = document.getElementById("new_user").value;
+        let password = document.getElementById("new_pass").value;
+        let confirmation = document.getElementById("confirm_pass").value;
 
-        if (name.length === 0 || password.length === 0 || password !== confirmation) {
+        if ((name == null || name === "") || (password == null || password === "") || password !== confirmation) {
             return;
-        } else {
-            info.name = name;
-            info.password = password;
-
-            req.open('POST', '/create');
-            req.setRequestHeader('Content-type', 'application/json');
-            req.send(JSON.stringify(info));
         }
+
+        info.name = name;
+        info.password = password;
+
+        req.open('POST', '/create');
+        req.setRequestHeader('Content-type', 'application/json');
+        req.send(JSON.stringify(info));
     }
 </script>
 </body>
